@@ -1,6 +1,6 @@
+var removeResultPanel = function(a) { var d= $(a).parent().parent().parent().parent(); d.remove(); return false; }
 jQuery(document).ready(function() {
 	jQuery('body').html(
-		'<a class="github-fork-ribbon" href="//github.com/Fusl/intrace" title="Fork me on GitHub">Fork me on GitHub</a>' +
 		'<div class="container">' +
 			'<div class="row">' +
 				'<div class="col-xs-12">' +
@@ -174,7 +174,7 @@ jQuery(document).ready(function() {
 						probes[probe].city +
 					'</div>' +
 					'<div class="float_right">' +
-						'&nbsp;<a href="' + probes[probe].providerurl + '" class="glyphicon glyphicon-home providerhome" aria-hidden="true"></a> ' +
+						'&nbsp;<a target="_blank" href="' + probes[probe].providerurl + '" class="glyphicon glyphicon-home providerhome" aria-hidden="true"></a> ' +
 						'<a href="#" class="provider-toggle">' + probes[probe].provider + '</a> ' +
 						'<a target="_blank" href="https://bgpview.io/asn/' + probes[probe].asnumber + '" class="asn">' + probes[probe].asnumber + '</a> ' +
 						'<a href="#" class="provider-toggle"><img src="providerlogos/' + md5(probes[probe].provider) + '.png" alt="" title="' + probes[probe].provider + '" onerror="this.onerror=null;this.src=\'providerlogos/d41d8cd98f00b204e9800998ecf8427e.png\';" ></a>' +
@@ -274,7 +274,7 @@ jQuery(document).ready(function() {
 					'<div class="col-xs-12">' +
 						'<div class="panel panel-default">' +
 							'<div class="panel-heading">' +
-								'<h3 class="panel-title query-header">' + target + ' | ' + jQuery('#cap_' + cap).data('name') + ' from ' + jQuery('#probe_' + probe).data('provider') + ' AS' + jQuery('#probe_' + probe).data('asnumber') + ' in ' + jQuery('#probe_' + probe).data('country') + ', ' + jQuery('#probe_' + probe).data('city') + ' <small id="query_' + id + '_small"></small></h3>' +
+								'<h3 class="panel-title query-header"><a onclick="removeResultPanel(this)" style="float:left"><span class="glyphicon glyphicon-remove"></span></a> |' + target + ' | ' + jQuery('#cap_' + cap).data('name') + ' from ' + jQuery('#probe_' + probe).data('provider') + ' AS' + jQuery('#probe_' + probe).data('asnumber') + ' in ' + jQuery('#probe_' + probe).data('country') + ', ' + jQuery('#probe_' + probe).data('city') + ' <small id="query_' + id + '_small"></small></h3>' +
 							'</div>' +
 							'<div class="panel-body">' +
 								'<div id="query_' + id + '_progress" class="progress"><div id="query_' + id + '_progress_bar" class="progress-bar progress-bar-striped active" role="progressbar" data-progress=""></div></div>' +
