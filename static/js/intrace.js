@@ -1,6 +1,43 @@
 var removeResultPanel = function(a) { var d= $(a).parent().parent().parent().parent(); d.remove(); return false; }
+var copyResultPanel = function(id) {
+    var note = document.getElementById(id).innerText;
+    if (navigator.clipboard) {
+	console.log("try navigator.clipboard");
+	try {
+            navigator.clipboard.writeText(note);
+        } catch (err) {
+            console.error('Failed to copy!', err);
+        }
+	return;
+    }
+    var textArea = document.createElement("textarea");
+    textArea.textContent = note;
+    //textArea.style.display = "none";
+    textArea.style.top = "0";
+    textArea.style.position = "fixed";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+        var successful = document.execCommand('copy');
+        var msg = successful ? 'successful' : 'unsuccessful';
+        if (window.getSelection) {
+            if (window.getSelection().empty) {  // Chrome
+                window.getSelection().empty();
+            } else if (window.getSelection().removeAllRanges) {  // Firefox
+                window.getSelection().removeAllRanges();
+            }
+        } else if (document.selection) {  // IE?
+            document.selection.empty();
+        }
+    } catch (err) {
+        console.log('unable to copy');
+    }
+    document.body.removeChild(textArea);
+}
 jQuery(document).ready(function() {
 	jQuery('body').html(
+		'<a class="github-fork-ribbon" href="//github.com/Fusl/intrace" title="Fork me on GitHub">Fork me on GitHub</a>' +
 		'<div class="container">' +
 			'<div class="row">' +
 				'<div class="col-xs-12">' +
@@ -274,7 +311,7 @@ jQuery(document).ready(function() {
 					'<div class="col-xs-12">' +
 						'<div class="panel panel-default">' +
 							'<div class="panel-heading">' +
-								'<h3 class="panel-title query-header"><a onclick="removeResultPanel(this)" style="float:left"><span class="glyphicon glyphicon-remove"></span></a> |' + target + ' | ' + jQuery('#cap_' + cap).data('name') + ' from ' + jQuery('#probe_' + probe).data('provider') + ' AS' + jQuery('#probe_' + probe).data('asnumber') + ' in ' + jQuery('#probe_' + probe).data('country') + ', ' + jQuery('#probe_' + probe).data('city') + ' <small id="query_' + id + '_small"></small></h3>' +
+								'<h3 class="panel-title query-header">' + target + ' | ' + jQuery('#cap_' + cap).data('name') + ' from ' + jQuery('#probe_' + probe).data('provider') + ' AS' + jQuery('#probe_' + probe).data('asnumber') + ' in ' + jQuery('#probe_' + probe).data('country') + ', ' + jQuery('#probe_' + probe).data('city') + ' <small id="query_' + id + '_small"></small></h3>' +
 							'</div>' +
 							'<div class="panel-body">' +
 								'<div id="query_' + id + '_progress" class="progress"><div id="query_' + id + '_progress_bar" class="progress-bar progress-bar-striped active" role="progressbar" data-progress=""></div></div>' +
@@ -285,6 +322,11 @@ jQuery(document).ready(function() {
 						'</div>' +
 					'</div>'
 				);
+				/* */
+			        var plug1 = '<a onclick="removeResultPanel(this)" style="float:left"><span class="glyphicon glyphicon-remove"></span></a>';
+				var plug2 = '<a onclick="copyResultPanel(\'query_'+id+'\')"><span class="glyphicon glyphicon-copy"></span></a>';
+				jQuery('#results').find('h3').prepend(plug1, plug2);
+				/* */
 				socket.emit('exec', {
 					id: id,
 					type: cap,
