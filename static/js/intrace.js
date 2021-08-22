@@ -288,7 +288,7 @@ jQuery(document).ready(function() {
 				/* */
 			        var plug1 = '<a onclick="removeResultPanel(this)" style="float:left"><span class="glyphicon glyphicon-remove"></span></a>';
 				var plug2 = '<a onclick="copyResultPanel(\'query_'+id+'\')"><span class="glyphicon glyphicon-copy"></span></a>';
-				jQuery('#results').find('h3').prepend(plug1, plug2);
+				jQuery('#results').find('h3').eq(0).prepend(plug1, plug2);
 				/* */
 				socket.emit('exec', {
 					id: id,
