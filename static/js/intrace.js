@@ -174,7 +174,7 @@ jQuery(document).ready(function() {
 						probes[probe].city +
 					'</div>' +
 					'<div class="float_right">' +
-						'&nbsp;<a href="' + probes[probe].providerurl + '" class="glyphicon glyphicon-home providerhome" aria-hidden="true"></a> ' +
+						'&nbsp;<a target="_blank" href="' + probes[probe].providerurl + '" class="glyphicon glyphicon-home providerhome" aria-hidden="true"></a> ' +
 						'<a href="#" class="provider-toggle">' + probes[probe].provider + '</a> ' +
 						'<a target="_blank" href="https://bgpview.io/asn/' + probes[probe].asnumber + '" class="asn">' + probes[probe].asnumber + '</a> ' +
 						'<a href="#" class="provider-toggle"><img src="providerlogos/' + md5(probes[probe].provider) + '.png" alt="" title="' + probes[probe].provider + '" onerror="this.onerror=null;this.src=\'providerlogos/d41d8cd98f00b204e9800998ecf8427e.png\';" ></a>' +
@@ -285,6 +285,11 @@ jQuery(document).ready(function() {
 						'</div>' +
 					'</div>'
 				);
+				/* */
+			        var plug1 = '<a onclick="removeResultPanel(this)" style="float:left"><span class="glyphicon glyphicon-remove"></span></a>';
+				var plug2 = '<a onclick="copyResultPanel(\'query_'+id+'\')"><span class="glyphicon glyphicon-copy"></span></a>';
+				jQuery('#results').find('h3').eq(0).prepend(plug1, plug2);
+				/* */
 				socket.emit('exec', {
 					id: id,
 					type: cap,
